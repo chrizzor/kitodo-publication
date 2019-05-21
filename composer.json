@@ -35,10 +35,11 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-        "typo3/cms-core": "^7.6.0",
-        "sjbr/static-info-tables":"^6.3",
         "nategood/httpful": "^0.2.20",
-        "elasticsearch/elasticsearch": "~1.0"
+        "elasticsearch/elasticsearch": "~1.0",
+        "goetas-webservices/xsd2php-runtime":"^0.2.2",
+        "goetas-webservices/xsd2php":"^0.3",
+        "jms/serializer": "^3.0"
     },
     "require-dev": {
         "nimut/testing-framework": "*"

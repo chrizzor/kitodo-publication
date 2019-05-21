@@ -15,6 +15,11 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerBuilder;
+use \EWW\Dpf\Mods\Mods\Mods;
+use \EWW\Dpf\Mods\Mods\TitleInfoType;
+
 
 class DocumentFormBEController extends AbstractDocumentFormController
 {
@@ -57,6 +62,34 @@ class DocumentFormBEController extends AbstractDocumentFormController
 
     public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
+        $serializerBuilder = SerializerBuilder::create()
+            ->setSerializationContextFactory(function () {
+                return SerializationContext::create()
+                    ->setSerializeNull(false)
+                    ;
+            });
+
+        $path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath("dpf");
+
+        $serializerBuilder->addMetadataDir($path . '/Classes/Mods/Metadata', 'EWW\Dpf\Mods\Mods');
+
+        $serializer = $serializerBuilder->build();
+
+        $object = new Mods();
+
+        $titleInfoObject = new TitleInfoType();
+        $titleInfoObject2 = new TitleInfoType();
+
+        $titleInfoObject->setTitle(array("Title"));
+
+        $object->addToTitleInfo($titleInfoObject);
+        $object->addToTitleInfo($titleInfoObject2);
+
+        $newXml = $serializer->serialize($object, 'xml');
+
+        var_dump($newXml);
+
+        exit;
 
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
         $this->view->assign('document', $document);
